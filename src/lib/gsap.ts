@@ -4,14 +4,13 @@ let registered = false;
 
 export async function getGSAP() {
   const { default: ScrollTrigger } = await import('gsap/ScrollTrigger');
-  const { default: DrawSVGPlugin } = await import('gsap/DrawSVGPlugin');
 
   if (!registered) {
-    gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+    gsap.registerPlugin(ScrollTrigger);
     registered = true;
   }
 
-  return { gsap, ScrollTrigger, DrawSVGPlugin };
+  return { gsap, ScrollTrigger };
 }
 
 export { gsap };
