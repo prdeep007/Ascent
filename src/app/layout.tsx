@@ -9,7 +9,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body>
         <a href='#main-content'>Skip to content</a>
-        <QueryProvider><LenisProvider><MotionProvider><nav>AscentEscapes</nav><TransitionOverlay /><main id='main-content'>{children}</main></MotionProvider></LenisProvider></QueryProvider>
+        <QueryProvider>
+          <LenisProvider>
+            <MotionProvider>
+              <nav aria-label='Primary'>AscentEscapes</nav>
+              <TransitionOverlay />
+              <main id='main-content'>{children}</main>
+            </MotionProvider>
+          </LenisProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,46 +1,61 @@
 'use client';
 
 import Lenis from '@studio-freight/lenis';
-import { createContext, useContext, useMemo, useRef } from 'react';
+import { createContext, useContext, useRef } from 'react';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { getScrollLibraries } from '@/lib/gsap';
+import { getGSAP } from '@/lib/gsap';
 
 const LenisContext = createContext<Lenis | null>(null);
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
-  const reduced = useReducedMotion();
+  const reduceMotion = useReducedMotion();
 
   useIsomorphicLayoutEffect(() => {
-    if (reduced) return;
-    let mounted = true;
-    let detach: (() => void) | null = null;
+    if (reduceMotion) {
+      lenisRef.current?.destroy();
+      lenisRef.current = null;
+      return;
+    }
+
+    let active = true;
+    let destroyer: (() => void) | undefined;
+
     const setup = async () => {
-      const lenis = new Lenis();
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (value: number) => Math.min(1, 1.001 - 2 ** (-10 * value))
+      });
+
       lenisRef.current = lenis;
-      const { gsap, ScrollTrigger } = await getScrollLibraries();
-      if (!mounted) return;
-      const ticker = (time: number) => lenis.raf(time * 1000);
-      gsap.ticker.add(ticker);
+
+      const { gsap, ScrollTrigger } = await getGSAP();
+      if (!active) return;
+
+      const raf = (time: number) => lenis.raf(time * 1000);
+      gsap.ticker.add(raf);
       gsap.ticker.lagSmoothing(0);
       lenis.on('scroll', ScrollTrigger.update);
-      detach = () => {
-        gsap.ticker.remove(ticker);
+
+      destroyer = () => {
+        gsap.ticker.remove(raf);
         lenis.destroy();
+        lenisRef.current = null;
       };
     };
-    void setup();
-    return () => {
-      mounted = false;
-      if (detach) detach();
-    };
-  }, [reduced]);
 
-  const value = useMemo(() => lenisRef.current, [lenisRef.current]);
-  return <LenisContext.Provider value={value}>{children}</LenisContext.Provider>;
+    void setup();
+
+    return () => {
+      active = false;
+      destroyer?.();
+    };
+  }, [reduceMotion]);
+
+  return <LenisContext.Provider value={lenisRef.current}>{children}</LenisContext.Provider>;
 }
 
-export function useLenisContext() {
+export function useLenisContext(): Lenis | null {
   return useContext(LenisContext);
 }

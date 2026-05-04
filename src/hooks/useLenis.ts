@@ -1,7 +1,8 @@
 'use client';
+
+import type Lenis from '@studio-freight/lenis';
 import { useLenisContext } from '@/providers/LenisProvider';
 
-export function useLenis() {
-  const lenis = useLenisContext();
-  return lenis;
+export function useLenis(): Lenis | null {
+  return useLenisContext();
 }

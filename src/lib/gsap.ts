@@ -1,9 +1,16 @@
 import gsap from 'gsap';
 
-export async function getScrollLibraries() {
+let registered = false;
+
+export async function getGSAP() {
   const { default: ScrollTrigger } = await import('gsap/ScrollTrigger');
   const { default: DrawSVGPlugin } = await import('gsap/DrawSVGPlugin');
-  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+  if (!registered) {
+    gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+    registered = true;
+  }
+
   return { gsap, ScrollTrigger, DrawSVGPlugin };
 }
 
