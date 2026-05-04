@@ -1,0 +1,31 @@
+{
+  "name": "ascentescapes",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.x",
+    "react": "18.3.x",
+    "react-dom": "18.3.x",
+    "gsap": "3.12.x",
+    "@studio-freight/lenis": "1.0.x",
+    "framer-motion": "11.x",
+    "@tanstack/react-query": "5.x",
+    "zustand": "4.x",
+    "jotai": "2.x",
+    "next-cloudinary": "6.x",
+    "clsx": "2.x",
+    "tailwindcss": "3.x",
+    "web-vitals": "4.x"
+  },
+  "devDependencies": {
+    "typescript": "5.x",
+    "@types/react": "18.x",
+    "@types/node": "20.x"
+  }
+}
