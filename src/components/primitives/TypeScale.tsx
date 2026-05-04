@@ -1,0 +1,4 @@
+import type { ReactNode } from 'react';
+
+const map = { hero:'var(--text-hero)', display:'var(--text-display)', h1:'var(--text-heading-1)', h2:'var(--text-heading-2)', label:'var(--text-label)', 'body-lg':'var(--text-body-lg)', body:'var(--text-body)', caption:'var(--text-caption)' } as const;
+export function TypeScale({variant, as, uppercase, color='primary', children}:{variant:keyof typeof map; as?:keyof JSX.IntrinsicElements; uppercase?:boolean; color?:'primary'|'secondary'|'accent'|'disabled'; children:ReactNode}){const Tag=as??'p'; const c={primary:'var(--color-text-primary)',secondary:'var(--color-text-secondary)',accent:'var(--color-accent)',disabled:'var(--color-text-disabled)'}[color]; return <Tag style={{fontSize:map[variant], color:c, textTransform:uppercase?'uppercase':undefined}}>{children}</Tag>}

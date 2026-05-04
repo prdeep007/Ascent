@@ -1,0 +1,3 @@
+import type { ReactNode } from 'react';
+
+export function Surface({ elevation, border='none', children }: {elevation:0|1|2;border?:'ridge'|'accent'|'none';blur?:boolean;radius?:'sm'|'md'|'lg'|'none';padding?:'space-1'|'space-2'|'space-3'|'space-4'|'space-6'|'space-8'|'space-12'|'space-16'|'space-24'|'space-32'|'space-48';children:ReactNode;}) { const bg = elevation===0?'var(--color-base)':elevation===1?'var(--color-surface-1)':'var(--color-surface-2)'; const b = border==='none'?'transparent':border==='ridge'?'var(--color-ridge)':'var(--color-accent)'; return <section style={{background:bg,border:`1px solid ${b}`}}>{children}</section>; }

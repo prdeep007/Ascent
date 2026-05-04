@@ -1,0 +1,1 @@
+export default function Loading(){return <div aria-label='Loading content' aria-busy='true'><svg viewBox='0 0 100 20'><path d='M0 18 L20 8 L40 16 L60 5 L80 13 L100 2' fill='none' stroke='var(--color-ridge)' /></svg></div>}
